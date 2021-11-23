@@ -108,7 +108,7 @@ def drawText(string, x, y):
 
 # them 1 con ca
 def add_small_fish():
-    global count, A
+    global count, A, level
     count += 1
     # chon vi tri x bat dau -50 hoac 650
     new_rand_x = random.choice([-50, 650])
@@ -117,7 +117,7 @@ def add_small_fish():
     if score <= 30:
         scale = 1.5
     else:
-        scale = random.choice([1.5, 3])
+        scale = randint(2,level+3)
 
     # neu x = -50, ben trai -> hinh dang ca di ve ben phai, huong chuyen dong = 1
     if new_rand_x < 0:
@@ -276,8 +276,8 @@ def main_scene():
     if lost_flag == 1:
         glutIdleFunc(menu)
     # neu diem >= diem max cua level/2 thi tang size ca cua minh len
-    if score >= levels[level-1][1]/2:
-        big_fish_size = 5
+    size_t = (score+1)/levels[level-1][1]
+    big_fish_size = 2 + size_t*(level+1)
 
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
@@ -375,7 +375,12 @@ def next_level(i):
     generate_patterns()
     level += 1
     if level > len(levels):
-        exit("Thanks, I was hungry !")
+        patterns_num = 5
+        vertical_displacement = 10
+        level=1
+        x_displacement = 0.2
+        generate_patterns()
+        glutIdleFunc(menu)
     else:
         start_game()
 
