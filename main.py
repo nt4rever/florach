@@ -2,7 +2,7 @@ from scipy import interpolate
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
-import time  # to be used in timer
+import time 
 import pygame
 import random
 from random import randint
@@ -23,7 +23,7 @@ x_ax = 50
 patterns_num = 5   # Number of Available patterns (integer)
 
 # khoang cach chuyen dong theo chieu doc (5px)
-vertical_displacement = 5
+vertical_displacement = 10
 # toc do dich chuyen theo chieu ngang (mac dinh 0,2)
 x_displacement = 0.2
 
@@ -96,12 +96,12 @@ def f(i):
 
 # hien thi text len man hinh
 def drawText(string, x, y):
-    glLineWidth(3)
-    glColor(1, 1, 0)
+    glLineWidth(2)
+    glColor(0, 0, 0)
     glLoadIdentity()
     glTranslate(x, y, 0)
     glRotate(180, 1, 0, 0)
-    glScale(.26, .26, 1)
+    glScale(.16, .16, 1)
     string = string.encode()  # conversion from Unicode string to byte string
     for c in string:
         glutStrokeCharacter(GLUT_STROKE_ROMAN, c)
@@ -150,19 +150,19 @@ def increase_Score():
 
 # hieu ung am thanh
 def eating_soound():
-    s_file = pygame.mixer.Sound("eating.wav")
+    s_file = pygame.mixer.Sound("audio/eating.wav")
     s_file.play()
 
 def game_over_sound():
-    s_file = pygame.mixer.Sound("shutdown.ogg")
+    s_file = pygame.mixer.Sound("audio/shutdown.ogg")
     s_file.play()
 
 def mega_kill():
-    s_file = pygame.mixer.Sound("megakill.ogg")
+    s_file = pygame.mixer.Sound("audio/megakill.ogg")
     s_file.play()
 
 def fb():
-    s_file = pygame.mixer.Sound("fb.mp3")
+    s_file = pygame.mixer.Sound("audio/fb.mp3")
     s_file.play()
 
 # ham tinh ket qua khi va cham, khoang cach toa do x,y < 30px dc tinh la co va cham
@@ -189,7 +189,7 @@ def load_texture():
     global texture, photos
     texture = glGenTextures(24)
     for i in range(24):
-        imgload = pygame.image.load(photos[i])
+        imgload = pygame.image.load("photos/"+photos[i])
         img = pygame.image.tostring(imgload, "RGBA", 1)
         width = imgload.get_width()
         height = imgload.get_height()
@@ -206,10 +206,8 @@ def load_texture():
 
 # khoi tao tro cho
 def init():
-    # s_file = pygame.mixer.Sound("feeding-frenzy.wav")
-    # s_file = pygame.mixer.Sound("audiobg.wav")
-    # s_file.play(-1)
-    pygame.mixer.music.load('audiobg.wav')
+    # s_file = pygame.mixer.Sound("audio/feeding-frenzy.wav")
+    pygame.mixer.music.load('audio/audiobg.wav')
     pygame.mixer.music.play(-1)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
@@ -298,18 +296,18 @@ def main_scene():
         glEnd()
 
         # Texture Added
-        string = "Score:" + str(score)
-        drawText(string, 20, 40)
+        string = "Score: " + str(score)
+        drawText(string, 20, 120)
         glLoadIdentity()
 
         # Texture Added
-        string = "Timer:" + str(levels[level-1][1]-seconds)
-        drawText(string, 20, 100)
+        string = "Timer: " + str(levels[level-1][1]-seconds)
+        drawText(string, 20, 180)
         glLoadIdentity()
 
         # Texture Added
-        string = "Level:" + str(level)
-        drawText(string, 20, 70)
+        string = "Level: " + str(level)
+        drawText(string, 20, 150)
         glLoadIdentity()
 
         glTranslate(current_x, current_y, 0)
